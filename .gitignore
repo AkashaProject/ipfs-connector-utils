@@ -38,3 +38,6 @@ bin
 .idea
 docs
 *.js
+*.d.ts
+!typings/*.d.ts
+test-repo

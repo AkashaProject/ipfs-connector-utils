@@ -1,0 +1,36 @@
+{
+  "name": "@akashaproject/ipfs-connector-utils",
+  "version": "1.0.0",
+  "description": "Helpers used by ipfs-connector",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha  ./tests/index.js",
+    "docs": "typedoc index.ts --out docs",
+    "release": "standard-version",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "test-debug": "./node_modules/.bin/_mocha ./tests/index.js -- --inspect --debug-brk"
+  },
+  "keywords": [
+    "ipfs",
+    "akasha"
+  ],
+  "engines": {
+    "node": ">=7.4.0",
+    "npm": ">=4.0.5"
+  },
+  "author": "Marius Darila",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkashaProject/ipfs-connector-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AkashaProject/ipfs-connector-utils/issues"
+  },
+  "homepage": "https://github.com/AkashaProject/ipfs-connector#readme",
+  "directories": {
+    "test": "tests",
+    "lib": "src"
+  }
+}

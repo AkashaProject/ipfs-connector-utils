@@ -7,9 +7,13 @@ export default class IpfsApiHelper {
     private _objectMaxSize;
     private _requestTimeout;
     private _encoding;
+    private _dagNode;
+    private _dagLink;
     constructor(provider: any);
     readonly ENCODING: string;
     readonly OBJECT_MAX_SIZE: number;
+    readonly DAGNode: any;
+    readonly DAGLink: any;
     readonly REQUEST_TIMEOUT: number;
     setObjectMaxSize(size: number): void;
     setRequestTimeout(time: number): void;
@@ -28,7 +32,7 @@ export default class IpfsApiHelper {
     getFile(hash: string): Promise<{}>;
     getStats(objectHash: string): any;
     getLinks(hash: string, enc?: string): any;
-    updateObject(hash: string, newData: Object): any;
+    updateObject(hash: string, newData: Object, enc?: string): any;
     createNode(data: any, links: any[]): any;
     findLinks(hash: string, names: string[]): any;
     findLinkPath(start: string, path: string[]): any;

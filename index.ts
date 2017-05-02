@@ -9,6 +9,8 @@ export default class IpfsApiHelper {
     private _objectMaxSize = 256 * 1024;
     private _requestTimeout = 60 * 1000;
     private _encoding = 'base58';
+    private _dagNode: any;
+    private _dagLink: any;
 
     /**
      * Requires an instance of ipfs-api or ipfs
@@ -20,8 +22,8 @@ export default class IpfsApiHelper {
         this.apiClient.object.patch = Promise.promisifyAll(this.apiClient.object.patch);
         this.apiClient.config = Promise.promisifyAll(this.apiClient.config);
         this.apiClient = Promise.promisifyAll(this.apiClient);
-
-        DAGNode.createAsync = Promise.promisify(DAGNode.create);
+        this._dagNode = Promise.promisifyAll(DAGNode);
+        this._dagLink = Promise.promisifyAll(DAGLink);
 
         if (!this.apiClient.hasOwnProperty('add') && this.apiClient.hasOwnProperty('files')) {
             Object.defineProperties(
@@ -54,6 +56,24 @@ export default class IpfsApiHelper {
      */
     public get OBJECT_MAX_SIZE() {
         return this._objectMaxSize;
+    }
+
+    /**
+     *
+     * @returns {Object}
+     * @constructor
+     */
+    public get DAGNode() {
+        return this._dagNode;
+    }
+
+    /**
+     *
+     * @returns {Object}
+     * @constructor
+     */
+    public get DAGLink() {
+        return this._dagLink;
     }
 
     /**
@@ -269,9 +289,10 @@ export default class IpfsApiHelper {
      * Patch an ipfs object
      * @param hash
      * @param newData
-     * @returns {Thenable<string|any|{type: "Buffer", data: any[]}|Object>}
+     * @param enc
+     * @returns {PromiseLike<T>}
      */
-    public updateObject(hash: string, newData: Object) {
+    public updateObject(hash: string, newData: Object, enc = this._encoding) {
         return this.get(hash)
             .then((dataResponse: Object) => {
                 const updatedObject = Object.assign({}, dataResponse, newData);
@@ -280,7 +301,7 @@ export default class IpfsApiHelper {
                 return this.apiClient
                     .object
                     .patch
-                    .setDataAsync(hash, dataBuffer);
+                    .setDataAsync(hash, dataBuffer, { enc: enc });
             })
             .then((dagNode: any) => {
                 return IpfsApiHelper.fromRawObject(dagNode);
@@ -294,7 +315,7 @@ export default class IpfsApiHelper {
      * @returns {Bluebird<U2|U1>|Thenable<U>|Bluebird<U>|Promise<TResult>|Bluebird<R>|Promise<T>|any}
      */
     public createNode(data: any, links: any[]) {
-        return DAGNode
+        return this._dagNode
             .createAsync(IpfsApiHelper.toDataBuffer(data), links)
             .then((dagNode: any) => {
                 return this.addObject(dagNode);

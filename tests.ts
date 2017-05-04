@@ -1,6 +1,8 @@
 import IpfsApiHelper from './index';
 import * as IPFS from 'ipfs';
 import { expect } from 'chai';
+import * as rimraf from 'rimraf';
+
 describe('ipfs-connector-utils', function () {
     let helperInstance: IpfsApiHelper;
     let ipfsHash: string;
@@ -221,5 +223,9 @@ describe('ipfs-connector-utils', function () {
     it('sets encoding for ipfs hash', function () {
         helperInstance.setEncoding('base64');
         expect(helperInstance.ENCODING).to.equal('base64');
-    })
+    });
+
+    after(function (done) {
+        rimraf('test-repo', done);
+    });
 });

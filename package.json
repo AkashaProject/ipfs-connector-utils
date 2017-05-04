@@ -39,6 +39,7 @@
   "devDependencies": {
     "@types/chai": "3.5.2",
     "@types/mocha": "2.2.41",
+    "@types/rimraf": "0.0.28",
     "chai": "3.5.0",
     "coveralls": "2.13.1",
     "ipfs": "0.23.1",

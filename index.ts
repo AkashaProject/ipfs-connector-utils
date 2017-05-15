@@ -301,7 +301,7 @@ export default class IpfsApiHelper {
                 return this.apiClient
                     .object
                     .patch
-                    .setDataAsync(hash, dataBuffer, { enc: enc });
+                    .setDataAsync(hash, dataBuffer, {enc: 'base58'});
             })
             .then((dagNode: any) => {
                 return IpfsApiHelper.fromRawObject(dagNode);

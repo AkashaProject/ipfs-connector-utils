@@ -20,6 +20,7 @@ export default class IpfsApiHelper {
         this.apiClient = provider;
         this.apiClient.object = Promise.promisifyAll(this.apiClient.object);
         this.apiClient.object.patch = Promise.promisifyAll(this.apiClient.object.patch);
+        this.apiClient.block = Promise.promisifyAll(this.apiClient.block);
         this.apiClient.config = Promise.promisifyAll(this.apiClient.config);
         this.apiClient = Promise.promisifyAll(this.apiClient);
         this._dagNode = Promise.promisifyAll(DAGNode);
@@ -150,10 +151,20 @@ export default class IpfsApiHelper {
      * Add data to ipfs
      * @param data
      * @param isFile
-     * @returns {Bluebird<{ hash: string, size: number }>}
+     * @param checkIfHash
+     * @returns {any}
      */
-    public add(data: any, isFile = false): Promise<{ hash: string, size: number }> {
+    public add(data: any, isFile = false, checkIfHash = false): Promise<{ hash: string, size: number }> {
         let dataBuffer: Buffer;
+        if (checkIfHash && multihash(data)) {
+            return this
+                .apiClient
+                .block
+                .statAsync(data)
+                .then((result: any) => {
+                    return { hash: result.key, size: result.size };
+                });
+        }
         if (Buffer.isBuffer(data) || isFile) {
             dataBuffer = data;
         } else {

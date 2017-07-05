@@ -220,6 +220,23 @@ describe('ipfs-connector-utils', function () {
             });
     });
 
+    it('gets hash stats', function () {
+        return helperInstance
+            .getStats('QmNZE8ixY7c9PfP2pkFEcXa59Yhsw6CSKwmgLETsa9QaTR')
+            .then((stats: any) => {
+                expect(stats).to.have.property('DataSize');
+            });
+    });
+
+    it('returns same hash on add if checkIfHash is present', function () {
+        return helperInstance
+            .add('QmVrGUNU7QphE3op8M6EnZBdA41CziV37wVwgYcVHu3ukm', false, true)
+            .then((result: any) => {
+                expect(result).to.have.property('hash');
+                expect(result).to.have.property('size');
+            });
+    });
+
     it('sets encoding for ipfs hash', function () {
         helperInstance.setEncoding('base64');
         expect(helperInstance.ENCODING).to.equal('base64');

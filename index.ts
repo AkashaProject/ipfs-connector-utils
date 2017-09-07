@@ -39,7 +39,7 @@ export default class IpfsApiHelper {
                         value: Promise.promisify(this.apiClient.files.cat)
                     }
                 }
-            )
+            );
         }
     }
 

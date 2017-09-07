@@ -18,17 +18,17 @@ describe('ipfs-connector-utils', function () {
         `electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of` +
         `Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like` +
         `Aldus PageMaker including versions of Lorem Ipsum.`;
-    this.timeout(4000);
+    this.timeout(10000);
 
     before(function (done) {
-        const provider = new IPFS({ repo: 'test-repo' });
+        const provider = new IPFS({ repo: 'test-repo', start: true });
         provider.on('start', () => {
             helperInstance = new IpfsApiHelper(provider);
         });
         setTimeout(() => {
             expect(helperInstance).to.exist;
             done();
-        }, 2000);
+        }, 9500);
     });
 
     it('adds an object to ipfs', function () {

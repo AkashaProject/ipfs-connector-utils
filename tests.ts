@@ -7,6 +7,7 @@ describe('ipfs-connector-utils', function () {
     let helperInstance: IpfsApiHelper;
     let ipfsHash: string;
     let ipfsHash1: string;
+    let provider: any;
     let rawObject: {
         _name: string,
         _size: number,
@@ -21,7 +22,7 @@ describe('ipfs-connector-utils', function () {
     this.timeout(10000);
 
     before(function (done) {
-        const provider = new IPFS({ repo: 'test-repo', start: true });
+        provider = new IPFS({ repo: 'test-repo', start: true });
         provider.on('start', () => {
             helperInstance = new IpfsApiHelper(provider);
         });
@@ -237,12 +238,17 @@ describe('ipfs-connector-utils', function () {
             });
     });
 
-    it('sets encoding for ipfs hash', function () {
+    it('sets encoding for ipfs hash', function (done) {
         helperInstance.setEncoding('base64');
         expect(helperInstance.ENCODING).to.equal('base64');
+        provider.stop(() => done());
     });
 
     after(function (done) {
-        rimraf('test-repo', done);
+        rimraf('./test-repo', (err) => {
+            console.log(err);
+            done();
+            process.exit(); // weird hang
+        });
     });
 });

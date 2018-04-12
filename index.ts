@@ -3,6 +3,8 @@ import * as Promise from 'bluebird';
 import { multihash } from 'is-ipfs';
 import { Readable } from 'stream';
 import { DAGLink, DAGNode } from 'ipld-dag-pb';
+import { Buffer } from 'safe-buffer';
+
 
 export default class IpfsApiHelper {
     public apiClient: any;

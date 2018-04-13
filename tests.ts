@@ -8,6 +8,7 @@ describe('ipfs-connector-utils', function () {
     let helperInstance: IpfsApiHelper;
     let ipfsHash: string;
     let ipfsHash1: string;
+    let statHash: string;
     let provider: any;
     let rawObject: {
         _name: string,
@@ -26,6 +27,10 @@ describe('ipfs-connector-utils', function () {
         provider = new IPFS({ repo: 'test-repo', start: true });
         provider.on('start', () => {
             helperInstance = new IpfsApiHelper(provider);
+            helperInstance.add({ data: '{}' }).then((node) => {
+                statHash = node.hash;
+                expect(node.hash).to.exist;
+            });
         });
         setTimeout(() => {
             expect(helperInstance).to.exist;
@@ -218,16 +223,18 @@ describe('ipfs-connector-utils', function () {
 
     it.skip('gets hash stats', function () {
         return helperInstance
-            .getStats('QmNZE8ixY7c9PfP2pkFEcXa59Yhsw6CSKwmgLETsa9QaTR')
+            .getStats(statHash)
             .then((stats: any) => {
+                console.log(stats);
                 expect(stats).to.have.property('DataSize');
             });
     });
 
     it('returns same hash on add if checkIfHash is present', function () {
         return helperInstance
-            .add('QmVrGUNU7QphE3op8M6EnZBdA41CziV37wVwgYcVHu3ukm', false, true)
+            .add(statHash, false, true)
             .then((result: any) => {
+                console.log(statHash, result);
                 expect(result).to.have.property('hash');
                 expect(result).to.have.property('size');
             });

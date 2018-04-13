@@ -185,13 +185,7 @@ export default class IpfsApiHelper {
      * @returns {Bluebird}
      */
     public addObject(data: Buffer) {
-        return this.apiClient
-            .object
-            .putAsync(data)
-            .then((dagNode: any) => {
-                const format = dagNode.toJSON();
-                return { hash: format.multihash, size: format.size };
-            });
+        return this.createNode(data, []);
     }
 
     /**
@@ -331,7 +325,13 @@ export default class IpfsApiHelper {
         return this._dagNode
             .createAsync(IpfsApiHelper.toDataBuffer(data), links)
             .then((dagNode: any) => {
-                return this.addObject(dagNode);
+                return this.apiClient
+                    .object
+                    .putAsync(dagNode);
+            })
+            .then((node: any) => {
+                const format = node.toJSON();
+                return { hash: format.multihash, size: format.size };
             });
     }
 

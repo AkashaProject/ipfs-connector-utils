@@ -1,6 +1,6 @@
 {
   "name": "@akashaproject/ipfs-connector-utils",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Helpers used by ipfs-connector",
   "main": "index.js",
   "types": "index.d.ts",

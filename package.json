@@ -16,8 +16,8 @@
     "akasha"
   ],
   "engines": {
-    "node": ">=7.6.0",
-    "npm": ">=5.0.0"
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
   },
   "author": "Marius Darila",
   "license": "MPL-2.0",

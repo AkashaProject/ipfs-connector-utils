@@ -285,7 +285,7 @@ describe('ipfs-connector-utils', function () {
       });*/
 
   after(function (done) {
-    rimraf('./test-repo', (err) => {
+    rimraf('./test-repo', (err: any) => {
       if (err) {
         console.log(err);
       }

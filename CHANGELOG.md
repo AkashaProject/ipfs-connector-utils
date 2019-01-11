@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/AkashaProject/ipfs-connector-utils/compare/v1.0.26...v2.0.0) (2019-01-11)
+
+
+### Features
+
+* **linked-data:** add dag support ([6da2305](https://github.com/AkashaProject/ipfs-connector-utils/commit/6da2305))
+
+
+### BREAKING CHANGES
+
+* **linked-data:** incompatible with older versions
+
+
+
 <a name="1.0.26"></a>
 ## [1.0.26](https://github.com/AkashaProject/ipfs-connector-utils/compare/v1.0.25...v1.0.26) (2018-12-03)
 

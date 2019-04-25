@@ -86,11 +86,14 @@ describe('ipfs-connector-utils', function () {
       .then(result => {
         expect(result.value).to.equal('Doe');
       })
-      .catch(err => expect(err).to.not.exist);
+      .catch(err => {
+        console.log('error', err);
+        expect(err).to.not.exist;
+      });
   });
 
   it('fails to create a cid link from bad encoded string', function() {
-    return helperInstance.addLink('zdpuB2CAUgUbyJ4s8SmqqcGGaGfs7bG337dDNty8NSCR3fhgRw', 'details')
+    return helperInstance.addLink('zdpuAzm672f1UYgfPuP3fDifw2wb4DiJVaheg3VMXeFuZxLxM', 'details')
       .then(cid => {
         expect(cid).to.not.exist;
       })

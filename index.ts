@@ -1,21 +1,19 @@
 /// <reference path="typings/main.d.ts"/>
 import * as isIpfs from 'is-ipfs';
+import * as CID from 'cids';
 import { Buffer } from 'safe-buffer';
 
 export default class IpfsApiHelper {
   public ipfsApi: any;
 
   // default options for storing DAG nodes
-  public _dagOptions = {
-    format: 'dag-cbor',
-    hashAlg: 'sha2-256',
-  };
+  public _dagOptions = {};
 
   /**
    * Requires an instance of ipfs-http-client or js-ipfs
    * @param provider
    */
-  constructor(provider: any) {
+  constructor (provider: any) {
     this.ipfsApi = provider;
   }
 
@@ -24,18 +22,18 @@ export default class IpfsApiHelper {
    * @param data
    * @returns {Buffer}
    */
-  public static toDataBuffer(data: object) {
+  public static toDataBuffer (data: object) {
     if (IpfsApiHelper.Buffer.isBuffer(data)) {
       return data;
     }
     return IpfsApiHelper.Buffer.from(JSON.stringify(data));
   }
 
-  public static get isIpfs() {
+  public static get isIpfs () {
     return isIpfs;
   }
 
-  public static get Buffer() {
+  public static get Buffer () {
     return Buffer;
   }
 
@@ -43,7 +41,7 @@ export default class IpfsApiHelper {
    * Create a node for the `data`
    * @param data
    */
-  public async add(data: object) {
+  public async add (data: object) {
     return await this.ipfsApi.dag.put(data, this._dagOptions);
   }
 
@@ -52,7 +50,7 @@ export default class IpfsApiHelper {
    * @param cid
    * @param path
    */
-  public async get(cid: string | object, path: string) {
+  public async get (cid: string | object, path: string) {
     return await this.ipfsApi.dag.get(cid, path);
   }
 
@@ -61,7 +59,7 @@ export default class IpfsApiHelper {
    * @param data
    * @param name
    */
-  public async addLinkFrom(data: object, name: string) {
+  public async addLinkFrom (data: object, name: string) {
     const cid = await this.add(data);
     return await this.addLink(cid, name);
   }
@@ -71,11 +69,12 @@ export default class IpfsApiHelper {
    * @param cid
    * @param name
    */
-  public async addLink(cid: string | object, name: string) {
-    if (!IpfsApiHelper.isIpfs.cid(cid)) {
+  public async addLink (cid: string | object, name: string) {
+    const linkedCid = (typeof cid === 'string' || cid instanceof String) ? new CID(cid) : cid;
+
+    if (!CID.isCID(linkedCid)) {
       throw new Error('Supplied CID is not valid');
     }
-    const linkedCid = (typeof cid === 'string' || cid instanceof String) ? new this.ipfsApi.types.CID(cid) : cid;
     return await this.add({ [name]: linkedCid });
   }
 }

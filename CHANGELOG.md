@@ -1,6 +1,8 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.0.4](https://github.com/AkashaProject/ipfs-connector-utils/compare/v2.0.3...v2.0.4) (2019-11-26)
 
 ## [2.0.3](https://github.com/AkashaProject/ipfs-connector-utils/compare/v2.0.2...v2.0.3) (2019-04-25)
 
